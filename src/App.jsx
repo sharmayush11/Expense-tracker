@@ -1,10 +1,13 @@
-import { useState } from 'react'
+import { useState , useEffect } from 'react'
 import './App.css'
 import ExpenseList from './ExpenseList'
 import ExpenseForm from './ExpenseForm'
 
 function App() {
-  const [expenses , setExpenses] = useState([]) //this expense is a state variable
+  const [expenses , setExpenses] = useState(() => {
+    const saved = localStorage.getItem("expenses")
+    return saved ? JSON.parse(saved) : []
+  }) //this expense is a state variable
 
   useEffect(() => {
     localStorage.setItem("expenses" , JSON.stringify(expenses)) //this expense is diff from the upper one
@@ -14,15 +17,17 @@ function App() {
     setExpenses((prev) => [...prev , expenses])
   }
   const deleteExpense = (id) => {
-    setExpenses((prev) =>
-      prev.filter((item) => item.id !== id)
+    setExpenses((prev) => prev.filter((item) => item.id !== id)
     );
   };
+
+  const totalExpenses = expenses.reduce((sum , item) => sum + item.amount , 0)
+
   return (
     <div className = "app-container">
       <h1>💰 Expense Tracker</h1>
 		  <ExpenseForm onAddExpense={addExpense}/>
-		  <h3 className="total">Total Expense: ₹750.00</h3>
+		  <h3 className="total">Total Expense: ₹{totalExpenses.toFixed(2)}</h3>
 		  <ExpenseList expenses={expenses} onDelete={deleteExpense}/>
     </div>
   )
