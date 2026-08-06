@@ -120,7 +120,7 @@ function App() {
         budget={budget}
         setBudget={setBudget}
         total={total}
-        topCategoryLabel={topCategory ? `Top: ${CATEGORIES[topCategory[0]].emoji} ${topCategory[0]}` : ""}
+        topCategoryLabel={topCategory ? `Top: ${(CATEGORIES[topCategory[0]] || CATEGORIES.Other).emoji} ${topCategory[0]}` : ""}
       />
 
       <ExpenseForm onAddExpense={addExpense} />
