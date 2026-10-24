@@ -8,5 +8,14 @@ export const CATEGORIES = {
 };
 
 export function currency(n) {
-  return "₹" + n.toLocaleString("en-IN", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+  const amount = Number(n ?? 0);
+
+  return (
+    "₹" +
+    (Number.isFinite(amount) ? amount : 0).toLocaleString("en-IN", {
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2,
+    })
+  );
 }
+
