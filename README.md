@@ -1,25 +1,21 @@
 # 💰 Expense Tracker
 
-A full-stack expense tracking application built with **React.js, Node.js, Express.js, and MongoDB** to help users manage expenses, organize transactions, and monitor their spending.
+A full-stack expense management application built with the **MERN stack** to help users track daily spending, manage transactions, and understand their financial habits through an interactive dashboard.
 
-The application combines a React-based frontend with a REST API backend and MongoDB database to provide a complete expense management experience.
-
-## 🌐 Live Demo
-
-**Live Application:** [Expense Tracker](https://expense-tracker-dope-cart.vercel.app/)
+The application combines a React frontend with a Node.js and Express backend, using MongoDB to store user accounts and their expenses.
 
 ## ✨ Features
 
-* 💸 **Expense Management** — Manage financial records through the application.
-* 📊 **Expense Analytics** — Visualize financial information using charts.
-* 🏷️ **Category-Based Tracking** — Organize expenses into categories.
-* 💰 **Budget Tracking** — Track spending against budgets where implemented.
-* 🔐 **Authentication** — Backend support for authentication using JSON Web Tokens.
-* 🗄️ **Database Integration** — Store application data using MongoDB and Mongoose.
-* 🔌 **REST API** — Connect the frontend and backend through API endpoints.
-* ⚡ **Modern Frontend** — Build a dynamic user interface using React and Vite.
-
-> Features should be verified against the current implementation before being advertised as fully functional.
+* **User Authentication:** Sign up and log in securely using JWT-based authentication.
+* **Expense Management:** Add, edit, and delete expense records.
+* **Undo Delete:** Restore a recently deleted expense.
+* **Category-Based Tracking:** Organize expenses into categories such as Food and other spending types.
+* **Expense Analytics:** Visualize spending through category-based charts.
+* **Budget Tracking:** Set a budget and monitor spending against it.
+* **Search and Sorting:** Search expenses by title and sort by date or amount.
+* **Category Filtering:** Filter transactions by category.
+* **User-Specific Data:** Store expenses under individual user accounts.
+* **Responsive Interface:** A modern interface built with reusable React components.
 
 ## 🛠️ Tech Stack
 
@@ -51,6 +47,7 @@ The application combines a React-based frontend with a REST API backend and Mong
 * GitHub
 * npm
 * ESLint
+* Nodemon
 
 ## 📁 Project Structure
 
@@ -58,42 +55,62 @@ The application combines a React-based frontend with a REST API backend and Mong
 Expense-tracker/
 │
 ├── backend/
+│   ├── Controllers/
+│   │   ├── AuthController.js
+│   │   └── ExpenseController.js
+│   │
+│   ├── Middlewares/
+│   │   ├── Auth.js
+│   │   └── AuthValidation.js
+│   │
+│   ├── Models/
+│   │   ├── User.js
+│   │   └── db.js
+│   │
+│   ├── Routes/
+│   │   ├── AuthRouter.js
+│   │   ├── ExpenseRouter.js
+│   │   └── ProductRouter.js
+│   │
 │   ├── index.js
-│   ├── package.json
-│   ├── package-lock.json
-│   └── ...
+│   └── package.json
 │
 ├── public/
 │
 ├── src/
-│   ├── components/
+│   ├── assets/
 │   ├── App.jsx
 │   ├── App.css
-│   ├── index.css
+│   ├── Auth.jsx
+│   ├── Auth.css
+│   ├── BudgetBar.jsx
+│   ├── CategoryChips.jsx
+│   ├── DonutChart.jsx
+│   ├── ExpenseForm.jsx
+│   ├── ExpenseItem.jsx
+│   ├── ExpenseList.jsx
+│   ├── Toolbar.jsx
+│   ├── categories.js
 │   └── main.jsx
 │
-├── .gitignore
 ├── index.html
 ├── package.json
-├── package-lock.json
 ├── vite.config.js
 └── README.md
 ```
 
-*Note: The structure is simplified. Refer to the repository for the complete directory structure.*
-
 ## 🚀 Getting Started
 
-Follow these instructions to run the project locally.
+Follow these steps to run the project locally.
 
 ### Prerequisites
 
-Make sure you have installed:
+Install the following:
 
 * [Node.js](https://nodejs.org/)
 * npm
 * [Git](https://git-scm.com/)
-* A MongoDB database, either locally or through [MongoDB Atlas](https://www.mongodb.com/atlas)
+* A MongoDB database through [MongoDB Atlas](https://www.mongodb.com/atlas) or a local MongoDB installation
 
 ### 1. Clone the Repository
 
@@ -102,30 +119,40 @@ git clone https://github.com/sharmayush11/Expense-tracker.git
 cd Expense-tracker
 ```
 
-### 2. Configure the Backend
+### 2. Install Frontend Dependencies
 
-Navigate to the backend directory:
+From the project root, run:
+
+```bash
+npm install
+```
+
+### 3. Install Backend Dependencies
 
 ```bash
 cd backend
 npm install
 ```
 
+### 4. Configure Environment Variables
+
 Create a `.env` file inside the `backend` directory.
 
-Example configuration:
+Add the following configuration:
 
 ```env
-PORT=5000
-MONGO_URI=your_mongodb_connection_string
+PORT=8081
+MONGO_CONN=your_mongodb_connection_string
 JWT_SECRET=your_random_secret
 ```
 
-Replace the placeholder values with your actual configuration.
+Replace the placeholder values with your actual MongoDB connection string and a strong, randomly generated JWT secret.
 
-Make sure the environment variable names match those used in your backend code.
+**Important:** The backend reads the MongoDB connection string from `MONGO_CONN`, not `MONGO_URI`.
 
-### 3. Start the Backend Server
+Keep your `.env` file private and never commit credentials or secrets to GitHub.
+
+### 5. Start the Backend
 
 From the `backend` directory, run:
 
@@ -133,58 +160,66 @@ From the `backend` directory, run:
 npm run dev
 ```
 
-The backend will start according to the configuration in your application.
+The backend will start on port `8081` with the configuration above.
 
-### 4. Install Frontend Dependencies
+### 6. Start the Frontend
 
-Open another terminal in the project root:
-
-```bash
-npm install
-```
-
-### 5. Start the Frontend
-
-Run:
+Open a second terminal in the project root and run:
 
 ```bash
 npm run dev
 ```
 
-Vite will display a local development URL in the terminal, usually:
+Open the local URL displayed by Vite, usually:
 
 ```text
 http://localhost:5173
 ```
 
-Open the URL in your browser to access the application.
+The frontend uses `http://localhost:8081` as its default API URL.
 
-Ensure the frontend is configured to communicate with your local backend server.
+If you choose a different backend port, create a `.env` file in the project root containing:
 
-## 🔌 Backend Architecture
+```env
+VITE_API_URL=http://localhost:YOUR_BACKEND_PORT
+```
 
-The backend uses Express.js to handle HTTP requests and Mongoose to interact with MongoDB.
+Replace `YOUR_BACKEND_PORT` with the port configured for your backend, then restart the Vite development server.
 
-Additional backend dependencies include:
+## 🔌 API Endpoints
 
-| Technology      | Purpose                         |
-| --------------- | ------------------------------- |
-| Express.js      | HTTP server and API routing     |
-| Mongoose        | MongoDB data modeling           |
-| JSON Web Tokens | Token-based authentication      |
-| bcrypt          | Password hashing                |
-| Joi             | Request data validation         |
-| dotenv          | Environment variable management |
-| CORS            | Cross-origin request handling   |
+### Authentication
 
-## 🔐 Security Considerations
+| Method | Endpoint       | Description                   |
+| ------ | -------------- | ----------------------------- |
+| POST   | `/auth/signup` | Register a new account        |
+| POST   | `/auth/login`  | Authenticate an existing user |
 
-* Keep database credentials and JWT secrets in environment variables.
-* Never commit `.env` files or sensitive credentials to GitHub.
-* Validate user input before processing requests.
-* Hash passwords before storing them.
-* Protect private API endpoints with appropriate authentication and authorization.
-* Configure CORS for the frontend's allowed origin.
+### Expense Management
+
+All expense endpoints require a valid JWT token in the `Authorization` header.
+
+| Method | Endpoint               | Description                                |
+| ------ | ---------------------- | ------------------------------------------ |
+| GET    | `/expenses`            | Retrieve the authenticated user's expenses |
+| POST   | `/expenses`            | Add a new expense                          |
+| PUT    | `/expenses/:expenseId` | Update an existing expense                 |
+| DELETE | `/expenses/:expenseId` | Delete an expense                          |
+| POST   | `/expenses/restore`    | Restore a deleted expense                  |
+
+### Health Check
+
+| Method | Endpoint | Description                             |
+| ------ | -------- | --------------------------------------- |
+| GET    | `/ping`  | Check whether the backend is responding |
+
+## 🔐 Security
+
+* Passwords are hashed using bcrypt before being stored.
+* JWT tokens are used for authentication.
+* Protected expense routes require a valid token.
+* Request validation is handled using Joi and additional controller-level checks.
+* MongoDB credentials and JWT secrets are configured through environment variables.
 
 ## 📦 Available Scripts
 
@@ -192,39 +227,37 @@ Additional backend dependencies include:
 
 Run these commands from the project root.
 
-| Command           | Description                        |
-| ----------------- | ---------------------------------- |
-| `npm run dev`     | Starts the Vite development server |
-| `npm run build`   | Builds the frontend for production |
-| `npm run preview` | Previews the production build      |
-| `npm run lint`    | Runs ESLint                        |
+| Command           | Description                       |
+| ----------------- | --------------------------------- |
+| `npm run dev`     | Start the Vite development server |
+| `npm run build`   | Create a production build         |
+| `npm run preview` | Preview the production build      |
+| `npm run lint`    | Run ESLint                        |
 
 ### Backend
 
 Run these commands from the `backend` directory.
 
-| Command       | Description                      |
-| ------------- | -------------------------------- |
-| `npm run dev` | Starts the backend with Nodemon  |
-| `npm start`   | Starts the backend using Node.js |
+| Command       | Description                     |
+| ------------- | ------------------------------- |
+| `npm run dev` | Start the backend using Nodemon |
+| `npm start`   | Start the backend using Node.js |
 
 ## 🔮 Future Improvements
 
-* Advanced expense filtering and search.
-* Monthly and yearly financial reports.
-* Improved budget management.
-* More detailed financial analytics.
-* Enhanced input validation and error handling.
-* Improved responsive design.
-* Production deployment and performance optimization.
+* Monthly and yearly expense reports.
+* Persistent budget settings for each user.
+* Advanced filtering by date and category.
+* Improved financial analytics.
+* Enhanced automated testing.
+* Production deployment with improved configuration and monitoring.
 
 ## 👨‍💻 Author
 
 **Ayush Sharma**
 
-🌐 [Portfolio](https://ayu-portfolio-zeta.vercel.app/)
-
-🐙 [GitHub Profile](https://github.com/sharmayush11)
+* GitHub: https://github.com/sharmayush11
+* Portfolio: https://ayu-portfolio-zeta.vercel.app/
 
 ---
 
