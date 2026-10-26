@@ -2,7 +2,7 @@ import { useState } from "react";
 import "./Auth.css";
 
 const API_URL =
-  import.meta.env.VITE_API_URL || "http://localhost:8081";
+  import.meta.env.VITE_API_URL || "https://expense-tracker-2nvn.onrender.com";
 
 function Auth({ onLogin }) {
   const [isLogin, setIsLogin] = useState(true);

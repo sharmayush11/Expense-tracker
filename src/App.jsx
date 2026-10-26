@@ -12,7 +12,7 @@ import Auth from "./Auth";
 import { CATEGORIES, currency } from "./categories";
 
 const API_URL =
-  import.meta.env.VITE_API_URL || "http://localhost:8081";
+  import.meta.env.VITE_API_URL || "https://expense-tracker-2nvn.onrender.com";
 
 function App() {
   const [expenses, setExpenses] = useState([]);
